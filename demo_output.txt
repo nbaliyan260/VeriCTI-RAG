@@ -21,8 +21,8 @@
 - **malware** `examplerat` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
 - **threat-actor** `fin7` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
 - **tool** `powershell` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
-- **tool** `certutil` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
 - **tool** `rundll32` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+- **tool** `certutil` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
 - **malware** `mimikatz` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
 - **tool** `wmic` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
 
@@ -162,8 +162,8 @@ level: high
 - [single_source] Entity Examplerat supported by only one document
 - [single_source] Entity FIN7 supported by only one document
 - [single_source] Entity powershell supported by only one document
-- [single_source] Entity certutil supported by only one document
 - [single_source] Entity rundll32 supported by only one document
+- [single_source] Entity certutil supported by only one document
 - [single_source] Entity Mimikatz supported by only one document
 - [single_source] Entity wmic supported by only one document
 - [contradictory_attribution] Entity malware_a332efa9ab attributed to multiple actors: ['threat-actor_da0464c956', 'tool_96e2e48413']

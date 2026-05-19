@@ -26,7 +26,8 @@ data/vericti.db
 data/chroma/
 data/uploads/
 data/chunks/
-data/poisoned_reports/
+data/poisoned_reports/*
+!data/poisoned_reports/demo_poisoned_cti_report.txt
 
 # Pytest
 .pytest_cache/

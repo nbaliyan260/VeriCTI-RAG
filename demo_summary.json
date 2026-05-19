@@ -1,0 +1,311 @@
+{
+  "timestamp": "2026-05-19T16:39:19.299765",
+  "phase": "Phase 1 MVP",
+  "clean_doc": {
+    "doc_id": "demo_clean_cti_report_c4b5ef4ae9",
+    "title": "ShadowLoader Campaign Targets Healthcare Sector",
+    "trust_score": 0.9
+  },
+  "extracted_entities": [
+    {
+      "type": "indicator",
+      "name": "shadowloader-c2.net",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    },
+    {
+      "type": "indicator",
+      "name": "10.13.37.100",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    },
+    {
+      "type": "indicator",
+      "name": "aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    },
+    {
+      "type": "tool",
+      "name": "powershell",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    },
+    {
+      "type": "tool",
+      "name": "certutil",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079"
+      ]
+    },
+    {
+      "type": "tool",
+      "name": "rundll32",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    },
+    {
+      "type": "malware",
+      "name": "mimikatz",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    },
+    {
+      "type": "tool",
+      "name": "wmic",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    }
+  ],
+  "extracted_iocs": [
+    "shadowloader-c2.net",
+    "10.13.37.100",
+    "aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344"
+  ],
+  "attack_mappings": [
+    {
+      "technique_id": "T1059.001",
+      "technique_name": "PowerShell",
+      "tactic": "Execution",
+      "confidence": 0.9000000000000001,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    },
+    {
+      "technique_id": "T1140",
+      "technique_name": "Deobfuscate/Decode Files or Information",
+      "tactic": "Defense Evasion",
+      "confidence": 0.9666666666666666,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079"
+      ]
+    },
+    {
+      "technique_id": "T1218.011",
+      "technique_name": "Rundll32",
+      "tactic": "Defense Evasion",
+      "confidence": 1.0,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    },
+    {
+      "technique_id": "T1071.001",
+      "technique_name": "Application Layer Protocol: Web",
+      "tactic": "Command and Control",
+      "confidence": 0.9000000000000001,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    },
+    {
+      "technique_id": "T1105",
+      "technique_name": "Ingress Tool Transfer",
+      "tactic": "Command and Control",
+      "confidence": 0.9666666666666666,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079"
+      ]
+    },
+    {
+      "technique_id": "T1047",
+      "technique_name": "Windows Management Instrumentation",
+      "tactic": "Execution",
+      "confidence": 0.65,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    },
+    {
+      "technique_id": "T1003",
+      "technique_name": "OS Credential Dumping",
+      "tactic": "Credential Access",
+      "confidence": 0.8,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    }
+  ],
+  "generated_rules": [
+    {
+      "rule_id": "vericti-t1059.001-fe9d6251be",
+      "title": "Suspicious Encoded PowerShell Execution",
+      "technique": "T1059.001",
+      "confidence": 0.95,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    },
+    {
+      "rule_id": "vericti-t1218.011-471706452e",
+      "title": "Suspicious Rundll32 Execution",
+      "technique": "T1218.011",
+      "confidence": 0.8,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+        "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b"
+      ]
+    },
+    {
+      "rule_id": "vericti-t1105-40520cca30",
+      "title": "Ingress Tool Transfer via LOLBins",
+      "technique": "T1105",
+      "confidence": 0.7,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079"
+      ]
+    },
+    {
+      "rule_id": "vericti-t1047-d3d0d204a6",
+      "title": "Suspicious WMI Process Creation",
+      "technique": "T1047",
+      "confidence": 0.7,
+      "evidence": [
+        "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84"
+      ]
+    }
+  ],
+  "validation_results": [
+    {
+      "rule_id": "vericti-t1059.001-fe9d6251be",
+      "syntax_valid": true,
+      "semantic_valid": true,
+      "tp": "5/5",
+      "fp": "0/10",
+      "fpr": 0.0,
+      "verdict": "verified"
+    },
+    {
+      "rule_id": "vericti-t1218.011-471706452e",
+      "syntax_valid": true,
+      "semantic_valid": true,
+      "tp": "2/2",
+      "fp": "0/2",
+      "fpr": 0.0,
+      "verdict": "verified"
+    },
+    {
+      "rule_id": "vericti-t1105-40520cca30",
+      "syntax_valid": true,
+      "semantic_valid": true,
+      "tp": "3/3",
+      "fp": "0/3",
+      "fpr": 0.0,
+      "verdict": "verified"
+    },
+    {
+      "rule_id": "vericti-t1047-d3d0d204a6",
+      "syntax_valid": true,
+      "semantic_valid": true,
+      "tp": "2/2",
+      "fp": "0/2",
+      "fpr": 0.0,
+      "verdict": "verified"
+    }
+  ],
+  "evidence_links": [
+    {
+      "entity": "shadowloader-c2.net",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+      "snippet": "werShell command uses the -encodedcommand flag to decode a base64 payload and ex"
+    },
+    {
+      "entity": "shadowloader-c2.net",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+      "snippet": "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3"
+    },
+    {
+      "entity": "10.13.37.100",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+      "snippet": "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3"
+    },
+    {
+      "entity": "aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+      "snippet": "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3"
+    },
+    {
+      "entity": "powershell",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794",
+      "snippet": "ShadowLoader Campaign Targets Healthcare Sector  Published: 2026-04-15 Source: g"
+    },
+    {
+      "entity": "powershell",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+      "snippet": "werShell command uses the -encodedcommand flag to decode a base64 payload and ex"
+    },
+    {
+      "entity": "powershell",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84",
+      "snippet": "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3"
+    },
+    {
+      "entity": "powershell",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b",
+      "snippet": "44aabbccdd11223344aabbccdd11223344aabbccdd11223344  MITRE ATT&CK Mapping  T1059."
+    },
+    {
+      "entity": "certutil",
+      "chunk_id": "demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079",
+      "snippet": "werShell command uses the -encodedcommand flag to decode a base64 payload and ex"
+    }
+  ],
+  "poisoning_results": {
+    "clean_doc_id": "demo_clean_cti_report_c4b5ef4ae9",
+    "poisoned_doc_id": "inline_769fdccc2a",
+    "n_clean_entities": 8,
+    "n_poisoned_entities": 12,
+    "newly_introduced_iocs": [
+      "192.0.2.250",
+      "attacker-fake-infra.xyz",
+      "da39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef"
+    ],
+    "attack_mapping_overlap": 1.0,
+    "evidence_faithfulness_clean": 1.0,
+    "evidence_faithfulness_poisoned": 1.0,
+    "poisoning_success_rate_estimate": 1.0
+  },
+  "final_confidence": 0.8465921666684748,
+  "final_verdict": "verified_with_caution",
+  "warnings": [
+    "[single_source] Entity domain: shadowloader-c2.net supported by only one document",
+    "[single_source] Entity ipv4: 10.13.37.100 supported by only one document",
+    "[single_source] Entity sha256: aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344 supported by only one document",
+    "[single_source] Entity powershell supported by only one document",
+    "[single_source] Entity certutil supported by only one document",
+    "[single_source] Entity rundll32 supported by only one document",
+    "[single_source] Entity Mimikatz supported by only one document",
+    "[single_source] Entity wmic supported by only one document"
+  ]
+}

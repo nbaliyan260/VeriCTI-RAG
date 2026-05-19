@@ -9,34 +9,94 @@ real-world malicious activity.
 
 ---
 
-## 📄 Report & Results
+## 📄 Reports & Documentation
 
 | Document | Contents |
 |----------|----------|
-| **[REPORT.md](REPORT.md)** | Full academic report: abstract, threat model, system design, experiments, quantitative results, limitations, future work |
-| `demo_output.txt` | Complete output of `python run_demo.py` (analyst report + clean-vs-poisoned comparison) |
-| `test_output.txt` | `pytest -q` — 15 passed in 0.34s |
+| **[PROFESSOR_DEMO.md](PROFESSOR_DEMO.md)** | 2-minute summary, demo guide, discussion questions for professor meeting |
+| **[PHASE1_REPORT.md](PHASE1_REPORT.md)** | Academic-style Phase 1 report: abstract, motivation, architecture, evaluation, Phase 2 plan |
+| **[REPORT.md](REPORT.md)** | Full technical report: threat model, system design, experiments, quantitative results |
+| `demo_summary.json` | Structured JSON output from the professor demo |
+| `demo_output.txt` | Complete output of `python run_demo.py` |
+| `test_output.txt` | `pytest -q` — 27 tests passing |
 | `eval_output.txt` | Ground-truth precision/recall/F1 evaluation (Entity F1=0.88, Technique F1=0.92) |
 
 ---
 
-## 🚀 Quick Start
+## 🎓 Professor Demo
 
-### Option A: Minimal install (tests + CLI demo only)
+### Why this demo exists
+
+The professor demo is a **polished, 8-step walkthrough** designed for a thesis proposal meeting or research advisor review. It shows the complete VeriCTI-RAG pipeline running end-to-end on a single CTI report, then demonstrates how a poisoned report corrupts the output and how the system detects the corruption.
+
+### How to run it
 
 ```bash
 cd vericti-rag
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements-min.txt
 
-# Run all 15 unit tests
-pytest -q
+make professor-demo
+# or: python run_professor_demo.py --json
+```
 
-# Run the end-to-end demo (ingests sample report → extraction → rules → verification → poisoning)
-python run_demo.py
+> **Runs fully offline.** No API keys, no model downloads, no internet.
 
-# Run ground-truth precision/recall evaluation
-python -c "import sys; sys.path.insert(0,'.'); from app.evaluation.ground_truth_eval import main; main()"
+### What to show during the meeting
+
+1. **Steps 1-5**: "This is what the system does — ingest, extract, map, generate, verify."
+2. **Step 6**: "Every output is linked to specific evidence text — this is what makes it different from a normal RAG."
+3. **Step 7**: "Here's what happens when the CTI corpus is poisoned — new fake IOCs appear, and the system flags them."
+4. **Step 8**: "The final analyst report gives a confidence score and warnings, so the analyst can make an informed decision."
+
+### Expected output highlights
+
+| Step | Key Output |
+|------|-----------|
+| Ingest | doc_id, title, trust_score=0.9 |
+| Extract | 8 entities with evidence chunk links |
+| ATT&CK | 7 technique mappings (T1059.001, T1105, etc.) |
+| Sigma | 4 rules, all verified, 0% FPR |
+| Evidence | Every entity → chunk → source text snippet |
+| Poisoning | 3 newly introduced fake IOCs detected |
+| Report | Verdict=verified_with_caution, Confidence=0.85 |
+
+### What is implemented (Phase 1)
+
+- ✅ Full pipeline: ingest → extract → map → generate → verify
+- ✅ 5 poisoning attack types with ground-truth annotations
+- ✅ Evidence provenance for every output
+- ✅ 10 defense mechanisms (trust, freshness, provenance, injection detection, etc.)
+- ✅ 27 unit tests, all passing
+- ✅ FastAPI backend + Streamlit dashboard
+
+### What is planned (Phase 2)
+
+- AZERG dataset evaluation (141 reports, 4,011 entities)
+- LLM-augmented extraction (GPT-4o / Claude)
+- Cross-report corroboration
+- Real log validation (Mordor, Atomic Red Team)
+- User study with SOC analysts
+
+---
+
+## 🚀 Quick Start
+
+### Option A: Minimal install (tests + demo only)
+
+```bash
+cd vericti-rag
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements-min.txt
+
+# Run all tests
+make test
+
+# Run the professor demo
+make professor-demo
+
+# Run the standard demo
+make demo
 ```
 
 > **No API keys, no model downloads, no internet access required.**  
@@ -47,11 +107,8 @@ python -c "import sys; sys.path.insert(0,'.'); from app.evaluation.ground_truth_
 ```bash
 pip install -r requirements-full.txt
 
-# Start the FastAPI backend
-uvicorn app.main:app --reload --port 8000
-
-# In a separate terminal, start the Streamlit frontend
-streamlit run frontend/streamlit_app.py
+make api     # terminal 1: FastAPI on port 8000
+make ui      # terminal 2: Streamlit frontend
 ```
 
 ### Option C: Legacy single requirements file
@@ -64,7 +121,7 @@ pip install -r requirements.txt
 
 ## ⚙️ Configuration
 
-All settings are via environment variables (see `app/core/config.py`):
+All settings are via environment variables (see `.env.example` and `app/core/config.py`):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
@@ -84,9 +141,10 @@ so the entire pipeline runs **offline** with no API keys.
 ## 🧪 Tests
 
 ```bash
-pytest -q                    # 15 tests across 5 modules
-pytest -v                    # verbose output
-pytest tests/test_sigma.py   # run a specific test module
+make test                            # all 27 tests
+pytest -v                            # verbose output
+pytest tests/test_professor_demo.py  # professor demo tests (12 tests)
+pytest tests/test_sigma.py           # Sigma generation tests
 ```
 
 ---
@@ -126,30 +184,39 @@ The frontend has 6 tabs:
 
 ## 📁 Project Layout
 
-See `REPORT.md` § 9 for a complete annotated file inventory.
-
 ```
 vericti-rag/
-├── app/                     # Backend: API, pipeline, modules
-│   ├── main.py              # FastAPI entrypoint
-│   ├── services/pipeline.py # End-to-end orchestration
-│   ├── core/                # Config, DB, schemas, LLM
-│   ├── ingestion/           # Text/PDF loading, chunking
-│   ├── retrieval/           # BM25 + vector hybrid retrieval
-│   ├── extraction/          # IOC, STIX, ATT&CK extraction
-│   ├── graph/               # Evidence graph + consistency
-│   ├── rules/               # Sigma generation + validation + execution
-│   ├── defense/             # Evidence verification + confidence scoring
-│   ├── attacks/             # 5 poisoning attack modules
-│   └── evaluation/          # Metrics, experiments, evaluation harness
-├── data/                    # Reports, logs, ground truth, DB
-├── frontend/                # Streamlit dashboard
-├── prompts/                 # LLM prompt templates
-├── tests/                   # 15 unit tests
-├── requirements-min.txt     # Minimal deps (tests + demo)
-├── requirements-full.txt    # Full deps (UI + vector + embeddings)
-├── requirements.txt         # Legacy combined deps
-├── run_demo.py              # CLI demo script
-├── REPORT.md                # Academic project report
-└── README.md                # This file
+├── app/                          # Backend: API, pipeline, modules
+│   ├── main.py                   # FastAPI entrypoint
+│   ├── services/pipeline.py      # End-to-end orchestration
+│   ├── core/                     # Config, DB, schemas, LLM
+│   ├── ingestion/                # Text/PDF loading, chunking
+│   ├── retrieval/                # BM25 + vector hybrid retrieval
+│   ├── extraction/               # IOC, STIX, ATT&CK extraction
+│   ├── graph/                    # Evidence graph + consistency
+│   ├── rules/                    # Sigma generation + validation + execution
+│   ├── defense/                  # Evidence verification + confidence scoring
+│   ├── attacks/                  # 5 poisoning attack modules
+│   └── evaluation/               # Metrics, experiments, evaluation harness
+├── data/
+│   ├── raw_reports/              # Clean CTI reports (incl. demo report)
+│   ├── poisoned_reports/         # Poisoned CTI reports (incl. demo report)
+│   ├── ground_truth/             # Ground-truth annotation JSON
+│   ├── logs_malicious/           # Per-technique malicious JSONL logs
+│   └── logs_benign/              # Per-technique benign JSONL logs
+├── frontend/                     # Streamlit 6-tab dashboard
+├── prompts/                      # LLM prompt templates
+├── tests/                        # 27 unit tests (6 modules)
+├── Makefile                      # make test / demo / professor-demo / api / ui
+├── .env.example                  # Configuration template
+├── requirements-min.txt          # Minimal deps (tests + demo)
+├── requirements-full.txt         # Full deps (UI + vector + embeddings)
+├── requirements.txt              # Legacy combined deps
+├── run_demo.py                   # Standard CLI demo
+├── run_professor_demo.py         # Professor demo (Phase 1)
+├── demo_summary.json             # Structured demo output
+├── PROFESSOR_DEMO.md             # Professor meeting guide
+├── PHASE1_REPORT.md              # Academic Phase 1 report
+├── REPORT.md                     # Full technical report
+└── README.md                     # This file
 ```

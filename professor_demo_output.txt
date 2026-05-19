@@ -1,0 +1,258 @@
+
+########################################################################
+#              VeriCTI-RAG — Professor Demo (Phase 1 MVP)              #
+########################################################################
+
+  Project: Poisoning-Resilient and Evidence-Verified
+           Cyber Threat Intelligence RAG for Detection Rule Generation
+
+  This demo runs entirely OFFLINE with rule-based extraction.
+  No API keys or model downloads are required.
+  Timestamp: 2026-05-19T16:39:19.299765
+
+========================================================================
+  STEP 1: INGEST CLEAN CTI REPORT
+========================================================================
+    Source file : demo_clean_cti_report.txt
+    Length      : 1764 characters
+    First line  : ShadowLoader Campaign Targets Healthcare Sector
+    doc_id: demo_clean_cti_report_c4b5ef4ae9
+    title: ShadowLoader Campaign Targets Healthcare Sector
+    published: 2026-04-15
+    trust_score: 0.9
+
+========================================================================
+  STEP 2: EXTRACT STIX ENTITIES & IOCs
+========================================================================
+    Entities extracted     : 8
+    Relationships found    : 30
+
+    [indicator      ]  shadowloader-c2.net
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+    [indicator      ]  10.13.37.100
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+    [indicator      ]  aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+    [tool           ]  powershell
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794', 'demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84', 'demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b']
+    [tool           ]  certutil
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079']
+    [tool           ]  rundll32
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b']
+    [malware        ]  mimikatz
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+    [tool           ]  wmic
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+
+========================================================================
+  STEP 3: MITRE ATT&CK TECHNIQUE MAPPING
+========================================================================
+    Techniques mapped: 7
+
+    T1059.001     PowerShell
+                     tactic: Execution
+                     confidence: 0.90
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794', 'demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84', 'demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b']
+    T1140         Deobfuscate/Decode Files or Information
+                     tactic: Defense Evasion
+                     confidence: 0.97
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794', 'demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079']
+    T1218.011     Rundll32
+                     tactic: Defense Evasion
+                     confidence: 1.00
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b']
+    T1071.001     Application Layer Protocol: Web
+                     tactic: Command and Control
+                     confidence: 0.90
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+    T1105         Ingress Tool Transfer
+                     tactic: Command and Control
+                     confidence: 0.97
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079']
+    T1047         Windows Management Instrumentation
+                     tactic: Execution
+                     confidence: 0.65
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84']
+    T1003         OS Credential Dumping
+                     tactic: Credential Access
+                     confidence: 0.80
+                     evidence: ['demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84', 'demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b']
+
+========================================================================
+  STEP 4: SIGMA DETECTION RULE GENERATION
+========================================================================
+    Rules generated: 4
+
+    --- First rule ---
+    rule_id: vericti-t1059.001-fe9d6251be
+    title: Suspicious Encoded PowerShell Execution
+    ATT&CK technique: T1059.001
+    confidence: 0.95
+    evidence_chunks: ['demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794', 'demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079', 'demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84', 'demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b']
+
+    Rule YAML:
+      title: Suspicious Encoded PowerShell Execution
+      id: vericti-t1059.001-fe9d6251be
+      status: experimental
+      description: Detects encoded or base64 PowerShell command execution as described in
+        CTI report.
+      references:
+      - evidence:demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794
+      - evidence:demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079
+      - evidence:demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84
+      - evidence:demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b
+      author: VeriCTI-RAG
+      date: '2026-05-19'
+      tags:
+      - attack.execution
+      - attack.t1059.001
+      logsource:
+        product: windows
+        category: process_creation
+      detection:
+        selection:
+          Image|endswith: \powershell.exe
+          CommandLine|contains:
+          - -enc
+          - -encodedcommand
+          - FromBase64String
+        condition: selection
+      level: high
+
+========================================================================
+  STEP 5: RULE VERIFICATION (syntax + semantic + logs)
+========================================================================
+    [vericti-t1059.001-fe9d6251be]
+    syntax_valid: True
+    semantic_valid: True
+    malicious hits: 5/5
+    benign false-pos: 0/10
+    false_positive_rate: 0.00%
+    verdict: verified
+
+    [vericti-t1218.011-471706452e]
+    syntax_valid: True
+    semantic_valid: True
+    malicious hits: 2/2
+    benign false-pos: 0/2
+    false_positive_rate: 0.00%
+    verdict: verified
+
+    [vericti-t1105-40520cca30]
+    syntax_valid: True
+    semantic_valid: True
+    malicious hits: 3/3
+    benign false-pos: 0/3
+    false_positive_rate: 0.00%
+    verdict: verified
+
+    [vericti-t1047-d3d0d204a6]
+    syntax_valid: True
+    semantic_valid: True
+    malicious hits: 2/2
+    benign false-pos: 0/2
+    false_positive_rate: 0.00%
+    verdict: verified
+
+
+========================================================================
+  STEP 6: EVIDENCE PROVENANCE LINKS
+========================================================================
+    VeriCTI-RAG links EVERY output to source evidence chunks.
+    This is the key difference from a normal RAG system.
+
+    Entity: shadowloader-c2.net
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079
+      text:  "werShell command uses the -encodedcommand flag to decode a base64 payload and ex..."
+
+    Entity: shadowloader-c2.net
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84
+      text:  "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3..."
+
+    Entity: 10.13.37.100
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84
+      text:  "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3..."
+
+    Entity: aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84
+      text:  "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3..."
+
+    Entity: powershell
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk000_fc29014794
+      text:  "ShadowLoader Campaign Targets Healthcare Sector  Published: 2026-04-15 Source: g..."
+
+    Entity: powershell
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079
+      text:  "werShell command uses the -encodedcommand flag to decode a base64 payload and ex..."
+
+    Entity: powershell
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk002_8a032a0a84
+      text:  "nds. When the primary C2 is unavailable, it falls back to the IP address 10.13.3..."
+
+    Entity: powershell
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk003_79b317499b
+      text:  "44aabbccdd11223344aabbccdd11223344aabbccdd11223344  MITRE ATT&CK Mapping  T1059...."
+
+    Entity: certutil
+      chunk: demo_clean_cti_report_c4b5ef4ae9_chunk001_48cae33079
+      text:  "werShell command uses the -encodedcommand flag to decode a base64 payload and ex..."
+
+
+========================================================================
+  STEP 7: POISONING ATTACK — Clean vs Poisoned
+========================================================================
+    Prompt injection patterns detected: 0
+    poisoned doc_id: inline_769fdccc2a
+    poisoned trust_score: 0.4
+
+    Running clean-vs-poisoned comparison...
+
+    Clean entities    : 8
+    Poisoned entities : 12
+    Newly introduced  : ['192.0.2.250', 'attacker-fake-infra.xyz', 'da39a3ee5e6b4b0d3255bfef95601890afd80709da39a3ee5e6b4b0d3255bfef']
+    ATT&CK overlap    : 1.00
+    Evidence faith.   : clean=1.00  poisoned=1.00
+    Poisoning success : 1.00
+
+========================================================================
+  STEP 8: FINAL ANALYST REPORT
+========================================================================
+    Document       : demo_clean_cti_report_c4b5ef4ae9
+    Verdict        : verified_with_caution
+    Confidence     : 0.85
+    Entities       : 8
+    ATT&CK maps    : 7
+    Sigma rules    : 4
+    Validations    : 4
+    Warnings       : 8
+
+    Warnings:
+      ⚠  [single_source] Entity domain: shadowloader-c2.net supported by only one document
+      ⚠  [single_source] Entity ipv4: 10.13.37.100 supported by only one document
+      ⚠  [single_source] Entity sha256: aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344 supported by only one document
+      ⚠  [single_source] Entity powershell supported by only one document
+      ⚠  [single_source] Entity certutil supported by only one document
+      ⚠  [single_source] Entity rundll32 supported by only one document
+      ⚠  [single_source] Entity Mimikatz supported by only one document
+      ⚠  [single_source] Entity wmic supported by only one document
+
+========================================================================
+  DEMO COMPLETE — Phase 1 MVP
+========================================================================
+
+    What this demo showed:
+    ✓ Ingested a clean CTI report (offline, no API keys)
+    ✓ Extracted STIX entities and IOCs with evidence links
+    ✓ Mapped behaviors to MITRE ATT&CK techniques
+    ✓ Generated Sigma detection rules from evidence
+    ✓ Verified rules: syntax, semantic grounding, log execution
+    ✓ Showed evidence provenance for every output
+    ✓ Applied a poisoning attack and compared outputs
+    ✓ Produced a final analyst report with confidence + warnings
+
+    What is NOT claimed:
+    ✗ This is not a finished A* paper — it is a Phase 1 prototype
+    ✗ No real-world SOC deployment — research demo only
+    ✗ Extraction is rule-based; LLM augmentation planned for Phase 2
+    
+    JSON summary written to: /Users/nazishbaliyan/Desktop/VeriCTI RAG/vericti-rag/demo_summary.json

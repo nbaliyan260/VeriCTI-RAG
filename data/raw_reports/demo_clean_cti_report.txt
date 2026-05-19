@@ -1,0 +1,47 @@
+ShadowLoader Campaign Targets Healthcare Sector
+
+Published: 2026-04-15
+Source: government
+
+Executive Summary
+
+In April 2026, CISA observed a targeted campaign delivering the ShadowLoader
+malware against healthcare organizations in the United States. The threat
+actor group DarkViper (tracked internally as TA-DV-2026) exploited
+spearphishing emails with malicious Excel attachments to gain initial access.
+
+Execution Details
+
+Upon opening the weaponized Excel document, a macro invokes PowerShell with
+encoded command-line arguments. The encoded PowerShell command uses the
+-encodedcommand flag to decode a base64 payload and execute it in memory.
+This behavior maps to MITRE ATT&CK technique T1059.001 (PowerShell).
+
+The payload downloads a second-stage binary from the attacker's command and
+control server at shadowloader-c2.net using certutil.exe to bypass
+application whitelisting. The binary is saved to a temp directory and
+executed via rundll32.exe.
+
+Command and Control
+
+ShadowLoader beacons to shadowloader-c2.net over HTTPS every 60 seconds.
+When the primary C2 is unavailable, it falls back to the IP address
+10.13.37.100. The observed sample SHA256 hash is
+aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344.
+
+Lateral Movement
+
+After establishing persistence, DarkViper operators used wmic.exe to
+execute processes on remote hosts (wmic process call create) and deployed
+Mimikatz to dump credentials from LSASS memory.
+
+Indicators of Compromise
+
+- Domain: shadowloader-c2.net
+- IPv4: 10.13.37.100
+- SHA256: aabbccdd11223344aabbccdd11223344aabbccdd11223344aabbccdd11223344
+
+MITRE ATT&CK Mapping
+
+T1059.001 PowerShell, T1105 Ingress Tool Transfer, T1218.011 Rundll32,
+T1003 OS Credential Dumping, T1047 Windows Management Instrumentation.
