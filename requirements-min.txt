@@ -1,0 +1,31 @@
+# requirements-min.txt
+# =====================
+# Minimal dependencies for tests + demo (offline, no UI, no vector DB).
+# Install: pip install -r requirements-min.txt
+
+# FastAPI (for API endpoints, also used by tests)
+fastapi>=0.110.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.5.0
+pydantic-settings>=2.1.0
+python-multipart>=0.0.9
+
+# Retrieval (BM25 only — no heavy model downloads)
+rank-bm25>=0.2.2
+numpy>=1.26.0
+
+# PDF parsing
+pypdf>=4.0.0
+
+# Graph
+networkx>=3.2
+
+# Sigma / YAML
+pyyaml>=6.0
+
+# Utilities
+python-dateutil>=2.8.2
+
+# Testing
+pytest>=7.4.0
+httpx>=0.26.0

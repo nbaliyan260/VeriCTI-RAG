@@ -1,0 +1,15 @@
+{
+  "doc": "sample_apt_report.txt",
+  "stix_entities": [
+    {"stix_type": "malware", "name": "ExampleRAT"},
+    {"stix_type": "threat-actor", "name": "FIN7"},
+    {"stix_type": "tool", "name": "powershell"},
+    {"stix_type": "tool", "name": "certutil"},
+    {"stix_type": "tool", "name": "rundll32"},
+    {"stix_type": "indicator", "value": "example-c2.com"},
+    {"stix_type": "indicator", "value": "198.51.100.23"}
+  ],
+  "attack_techniques": [
+    "T1059.001", "T1105", "T1218.011", "T1003", "T1047"
+  ]
+}

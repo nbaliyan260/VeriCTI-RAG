@@ -1,0 +1,5 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -enc SGVsbG8gV29ybGQ=", "User": "victim"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell -EncodedCommand JABzAD0AJwBoAGUAbABsAG8AJwA=", "User": "victim"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe IEX([System.Convert]::FromBase64String('aGVsbG8='))", "User": "victim"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell -nop -w hidden -enc BASE64BLOB", "User": "victim"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -encodedcommand AAA=", "User": "victim"}

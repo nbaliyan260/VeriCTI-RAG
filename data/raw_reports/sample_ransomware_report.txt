@@ -1,0 +1,21 @@
+Ransomware Brief: LockBit Affiliate Activity
+
+Published: 2026-01-15
+Source: government
+
+In January 2026, CISA observed multiple intrusions attributed to a LockBit
+affiliate. Initial access was via exposed RDP services. Once inside, the
+operator executed cmd.exe with /c chains and leveraged regsvr32.exe to load a
+malicious COM scriptlet (squiblydoo).
+
+The threat actors used PowerShell encoded commands to enumerate hosts and
+ran wmic process call create to move laterally. Finally, ransomware encrypts
+files on the host and drops a ransom note.
+
+Indicators observed:
+- Domain: lockbit-leak.example
+- IPv4: 203.0.113.10
+- SHA256: 1111111111111111111111111111111111111111111111111111111111111111
+
+MITRE ATT&CK: T1059.001 PowerShell, T1059.003 Windows Command Shell,
+T1218.010 Regsvr32, T1047 WMI, T1486 Data Encrypted for Impact.

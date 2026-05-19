@@ -1,0 +1,2 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\rundll32.exe", "CommandLine": "rundll32.exe C:\\Users\\x\\evil.dll,EntryPoint"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\rundll32.exe", "CommandLine": "rundll32.exe javascript:\"\\..\\mshtml,RunHTMLApplication \""}

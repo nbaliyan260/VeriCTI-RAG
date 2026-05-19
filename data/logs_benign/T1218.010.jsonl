@@ -1,0 +1,2 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\regsvr32.exe", "CommandLine": "regsvr32 /n /i mydll.dll"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\rundll32.exe", "CommandLine": "rundll32.exe shell32.dll,Control_RunDLL"}

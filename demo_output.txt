@@ -1,0 +1,185 @@
+=== VeriCTI-RAG demo ===
+
+[1] Ingesting clean report: /Users/nazishbaliyan/Desktop/VeriCTI RAG/vericti-rag/data/raw_reports/sample_apt_report.txt
+    doc_id=sample_apt_report_98d8c1cfda title='APT Campaign Report: ExampleRAT Targets Financial Sector' published=2025-10-01 trust=0.7
+
+[2] Generating poisoned variant (fake IOC + prompt injection)
+    poisoned doc_id=inline_ccf75bb089
+
+[3] Building analyst report for clean document
+# VeriCTI-RAG Analyst Report
+
+**Document:** `sample_apt_report_98d8c1cfda`
+**Summary:** Report 'APT Campaign Report: ExampleRAT Targets Financial Sector' from source 'sample_apt'. 10 STIX entities, 7 ATT&CK mappings, 4 Sigma rules generated.
+**Final verdict:** **verified_with_caution**  
+**Final confidence:** 0.72
+
+## STIX Entities
+- **indicator** `198.51.100.23` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
+- **indicator** `example-c2.com` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
+- **indicator** `abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+- **malware** `examplerat` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
+- **threat-actor** `fin7` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+- **tool** `powershell` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+- **tool** `certutil` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911'])
+- **tool** `rundll32` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+- **malware** `mimikatz` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+- **tool** `wmic` (conf=1.00, evidence=['sample_apt_report_98d8c1cfda_chunk002_e654823e4a'])
+
+## ATT&CK Mappings
+- `T1059.001` PowerShell (Execution) conf=0.75 ev=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a']
+- `T1140` Deobfuscate/Decode Files or Information (Defense Evasion) conf=0.97 ev=['sample_apt_report_98d8c1cfda_chunk000_0760f91507', 'sample_apt_report_98d8c1cfda_chunk001_b45fb78911']
+- `T1218.011` Rundll32 (Defense Evasion) conf=1.00 ev=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911', 'sample_apt_report_98d8c1cfda_chunk002_e654823e4a']
+- `T1071.001` Application Layer Protocol: Web (Command and Control) conf=1.00 ev=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911']
+- `T1105` Ingress Tool Transfer (Command and Control) conf=0.65 ev=['sample_apt_report_98d8c1cfda_chunk001_b45fb78911']
+- `T1047` Windows Management Instrumentation (Execution) conf=0.97 ev=['sample_apt_report_98d8c1cfda_chunk002_e654823e4a']
+- `T1003` OS Credential Dumping (Credential Access) conf=1.00 ev=['sample_apt_report_98d8c1cfda_chunk002_e654823e4a']
+
+## Generated Sigma Rules
+### Suspicious Encoded PowerShell Execution (`vericti-t1059.001-6b8cfc93ce`)
+```yaml
+title: Suspicious Encoded PowerShell Execution
+id: vericti-t1059.001-6b8cfc93ce
+status: experimental
+description: Detects encoded or base64 PowerShell command execution as described in
+  CTI report.
+references:
+- evidence:sample_apt_report_98d8c1cfda_chunk000_0760f91507
+- evidence:sample_apt_report_98d8c1cfda_chunk001_b45fb78911
+- evidence:sample_apt_report_98d8c1cfda_chunk002_e654823e4a
+author: VeriCTI-RAG
+date: '2026-05-19'
+tags:
+- attack.execution
+- attack.t1059.001
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: \powershell.exe
+    CommandLine|contains:
+    - -enc
+    - -encodedcommand
+    - FromBase64String
+  condition: selection
+level: high
+
+```
+### Suspicious Rundll32 Execution (`vericti-t1218.011-d1101bc305`)
+```yaml
+title: Suspicious Rundll32 Execution
+id: vericti-t1218.011-d1101bc305
+status: experimental
+description: Detects rundll32.exe usage indicative of proxy execution.
+references:
+- evidence:sample_apt_report_98d8c1cfda_chunk001_b45fb78911
+- evidence:sample_apt_report_98d8c1cfda_chunk002_e654823e4a
+author: VeriCTI-RAG
+date: '2026-05-19'
+tags:
+- attack.defense_evasion
+- attack.t1218.011
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: \rundll32.exe
+    CommandLine|contains:
+    - ','
+    - .dll
+  condition: selection
+level: high
+
+```
+### Ingress Tool Transfer via LOLBins (`vericti-t1105-3644782810`)
+```yaml
+title: Ingress Tool Transfer via LOLBins
+id: vericti-t1105-3644782810
+status: experimental
+description: Detects certutil/bitsadmin used for file download.
+references:
+- evidence:sample_apt_report_98d8c1cfda_chunk001_b45fb78911
+author: VeriCTI-RAG
+date: '2026-05-19'
+tags:
+- attack.command_and_control
+- attack.t1105
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith:
+    - \certutil.exe
+    - \bitsadmin.exe
+    CommandLine|contains:
+    - urlcache
+    - transfer
+    - http
+  condition: selection
+level: high
+
+```
+### Suspicious WMI Process Creation (`vericti-t1047-48efa728ba`)
+```yaml
+title: Suspicious WMI Process Creation
+id: vericti-t1047-48efa728ba
+status: experimental
+description: Detects WMI-based process creation (wmic / Win32_Process).
+references:
+- evidence:sample_apt_report_98d8c1cfda_chunk002_e654823e4a
+author: VeriCTI-RAG
+date: '2026-05-19'
+tags:
+- attack.execution
+- attack.t1047
+logsource:
+  product: windows
+  category: process_creation
+detection:
+  selection:
+    Image|endswith: \wmic.exe
+    CommandLine|contains:
+    - process call create
+    - Win32_Process
+  condition: selection
+level: high
+
+```
+
+## Rule Validation
+- `vericti-t1059.001-6b8cfc93ce` syntax=True semantic=True tp=5/5 fp=0/10 verdict=verified
+- `vericti-t1218.011-d1101bc305` syntax=True semantic=True tp=2/2 fp=0/2 verdict=verified
+- `vericti-t1105-3644782810` syntax=True semantic=True tp=3/3 fp=0/3 verdict=verified
+- `vericti-t1047-48efa728ba` syntax=True semantic=True tp=2/2 fp=0/2 verdict=verified
+
+## Warnings
+- [single_source] Entity ipv4: 198.51.100.23 supported by only one document
+- [single_source] Entity domain: example-c2.com supported by only one document
+- [single_source] Entity sha256: abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789 supported by only one document
+- [single_source] Entity Examplerat supported by only one document
+- [single_source] Entity FIN7 supported by only one document
+- [single_source] Entity powershell supported by only one document
+- [single_source] Entity certutil supported by only one document
+- [single_source] Entity rundll32 supported by only one document
+- [single_source] Entity Mimikatz supported by only one document
+- [single_source] Entity wmic supported by only one document
+- [contradictory_attribution] Entity malware_a332efa9ab attributed to multiple actors: ['threat-actor_da0464c956', 'tool_96e2e48413']
+- [contradiction] Contradictory attribution for malware malware_a332efa9ab: ['threat-actor_da0464c956', 'tool_96e2e48413']
+
+[4] Clean vs poisoned comparison
+{
+  "clean_doc_id": "sample_apt_report_98d8c1cfda",
+  "poisoned_doc_id": "inline_ccf75bb089",
+  "n_clean_entities": 10,
+  "n_poisoned_entities": 13,
+  "newly_introduced_iocs": [
+    "da39a3ee5e6b4b0d3255bfef95601890afd80709"
+  ],
+  "attack_mapping_overlap": 1.0,
+  "evidence_faithfulness_clean": 1.0,
+  "evidence_faithfulness_poisoned": 0.9307692307692308,
+  "poisoning_success_rate_estimate": 1.0
+}

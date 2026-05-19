@@ -1,0 +1,94 @@
+[eval] sample_apt_report.txt vs sample_apt_report.json
+[eval] sample_ransomware_report.txt vs sample_ransomware_report.json
+
+========================================================================
+GROUND TRUTH EVALUATION RESULTS
+========================================================================
+
+--- sample_apt_report.txt ---
+  STIX entities : P=0.70  R=1.00  F1=0.82  (pred=10, gold=7)
+    extra:   ['indicator:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789', 'malware:mimikatz', 'tool:wmic']
+  ATT&CK techs  : P=0.71  R=1.00  F1=0.83
+    extra:   ['T1071.001', 'T1140']
+
+--- sample_ransomware_report.txt ---
+  STIX entities : P=0.88  R=1.00  F1=0.93  (pred=8, gold=7)
+    extra:   ['indicator:lockbit-leak.example']
+  ATT&CK techs  : P=1.00  R=1.00  F1=1.00
+
+--- Macro avg (n=2) ---
+  Entity F1   = 0.8784
+  Technique F1= 0.9166
+[
+  {
+    "report": "sample_apt_report.txt",
+    "doc_id": "sample_apt_report_98d8c1cfda",
+    "entity_precision": 0.7,
+    "entity_recall": 1.0,
+    "entity_f1": 0.8235,
+    "entity_pred_count": 10,
+    "entity_gold_count": 7,
+    "entity_missing": [],
+    "entity_extra": [
+      "indicator:abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+      "malware:mimikatz",
+      "tool:wmic"
+    ],
+    "technique_precision": 0.7143,
+    "technique_recall": 1.0,
+    "technique_f1": 0.8333,
+    "technique_pred": [
+      "T1003",
+      "T1047",
+      "T1059.001",
+      "T1071.001",
+      "T1105",
+      "T1140",
+      "T1218.011"
+    ],
+    "technique_gold": [
+      "T1003",
+      "T1047",
+      "T1059.001",
+      "T1105",
+      "T1218.011"
+    ],
+    "technique_missing": [],
+    "technique_extra": [
+      "T1071.001",
+      "T1140"
+    ]
+  },
+  {
+    "report": "sample_ransomware_report.txt",
+    "doc_id": "sample_ransomware_report_494d7f1915",
+    "entity_precision": 0.875,
+    "entity_recall": 1.0,
+    "entity_f1": 0.9333,
+    "entity_pred_count": 8,
+    "entity_gold_count": 7,
+    "entity_missing": [],
+    "entity_extra": [
+      "indicator:lockbit-leak.example"
+    ],
+    "technique_precision": 1.0,
+    "technique_recall": 1.0,
+    "technique_f1": 1.0,
+    "technique_pred": [
+      "T1047",
+      "T1059.001",
+      "T1059.003",
+      "T1218.010",
+      "T1486"
+    ],
+    "technique_gold": [
+      "T1047",
+      "T1059.001",
+      "T1059.003",
+      "T1218.010",
+      "T1486"
+    ],
+    "technique_missing": [],
+    "technique_extra": []
+  }
+]

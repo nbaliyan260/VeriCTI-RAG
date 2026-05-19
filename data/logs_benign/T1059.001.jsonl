@@ -1,0 +1,10 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe Get-Process", "User": "admin"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe -File C:\\Scripts\\update.ps1", "User": "svc-update"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\notepad.exe", "CommandLine": "notepad.exe report.txt", "User": "user"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\cmd.exe", "CommandLine": "cmd.exe /c dir", "User": "user"}
+{"EventID": 1, "Image": "C:\\Program Files\\Git\\bin\\git.exe", "CommandLine": "git status", "User": "dev"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe Get-Service", "User": "admin"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe Get-EventLog -LogName System", "User": "admin"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe Set-Location C:\\Users", "User": "admin"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe Test-NetConnection google.com", "User": "admin"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "CommandLine": "powershell.exe Update-Help", "User": "admin"}

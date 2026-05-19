@@ -1,0 +1,3 @@
+{"EventID": 1, "Image": "C:\\Windows\\System32\\certutil.exe", "CommandLine": "certutil -hashfile file.txt SHA256"}
+{"EventID": 1, "Image": "C:\\Windows\\System32\\certutil.exe", "CommandLine": "certutil -dump trusted.crt"}
+{"EventID": 1, "Image": "C:\\Program Files\\App\\app.exe", "CommandLine": "app.exe --help"}

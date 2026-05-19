@@ -1,0 +1,15 @@
+{
+  "doc": "sample_ransomware_report.txt",
+  "stix_entities": [
+    {"stix_type": "malware", "name": "LockBit"},
+    {"stix_type": "tool", "name": "powershell"},
+    {"stix_type": "tool", "name": "cmd.exe"},
+    {"stix_type": "tool", "name": "regsvr32"},
+    {"stix_type": "tool", "name": "wmic"},
+    {"stix_type": "indicator", "value": "203.0.113.10"},
+    {"stix_type": "indicator", "value": "1111111111111111111111111111111111111111111111111111111111111111"}
+  ],
+  "attack_techniques": [
+    "T1059.001", "T1059.003", "T1218.010", "T1047", "T1486"
+  ]
+}
